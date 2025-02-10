@@ -3,7 +3,10 @@ The genetic programming algorithm used to solve the symbolic regression problem 
 
 ## Individuals structure
 Each individual is characterized by a tree structure where each node is an instance of the class `Node`, that specifies the value of the node, its parent node and the left and right children (if present).
-The whole tree is embedded by an instance of the class `Tree`, that contains the root node and the fitness value of the tree.
+The whole tree is embedded by an instance of the class `Tree`, that contains the root node and the fitness value of the tree.<br>
+Each node can either be:
+- a function node, expressing one of the math functions in the set `["add", "sub", "mul", "div", "log", "sin", "tan", "exp", "sqrt", "square"]`
+- a terminal (leaf) node, expressing a variable `x1, x2,...` or a random float constant with a value in the range `[-5,5]`
 
 ## Fitness 
 The chosen fitness is based on the negative MSE (Mean Square Error). The negative sign is useful only to keep the fitness higher for better solutions and lower for worse solutions.<br>
@@ -29,5 +32,10 @@ All these parameters, including the ones expressing probabilities, have been opt
 
 ## Crossover and mutation
 The algorithm uses one type of crossover and two types of mutations. In particular:
-- the crossover acts on two parents and is based on subtrees swapping, where two children are produced, each one of them corresponds to one parent with the subtree swapped from the other parent
-- the mutation can either be a simple swap mutation, where we randomly turn a function node into another function node or a terminal node into another therminal node, or it can be a collapse mutation, where we select a random subtree and we collapse it, substituting its root node with a random terminal node
+- the **crossover** acts on two parents and is based on subtrees swapping, where two children are produced, each one of them corresponds to one parent with the subtree swapped from the other parent
+- the **mutation** can either be a simple swap mutation, where we randomly turn a function node into another function node or a terminal node into another therminal node, or it can be a collapse mutation, where we select a random subtree and we collapse it, substituting its root node with a random terminal node
+If the tree resulting from a crossover has a depth that is higher than the maximum one, its depth is reduced by a function that collapses the subtrees that are too deep.
+
+## General behavior
+The algorithm, being that it implements a steady-state approach where there is only one crossover at each generation, has a slow convergence which on the other hand is mor precise and gradual. The main iteration can sometimes be stuck in a long stagnation phase (1000 - 4000 stagnation level), especially in the second half of the execution (after 10.000 generations), but after this phases the algorithm usually finds new good solutions, reason for which there is not a maximum number of stagnation level after which the iteration stops before reaching the maximum number of generations (20.000 generations).<br>
+However, these stagnation phases have been significantly reduced with the methods of stagnation avoidance explained before.
