@@ -31,8 +31,9 @@ The main iteration keeps track of the convergence speed of the current solution 
 All these parameters, including the ones expressing probabilities, have been optimized with a trial and error strategy, by changing them in different ways and comparing the obtained results in terms of final fitness and convergence speed.
 
 ## Crossover and mutation
-The algorithm uses one type of crossover and two types of mutations. In particular:
-- the **crossover** acts on two parents and is based on subtrees swapping, where two children are produced, each one of them corresponds to one parent with the subtree swapped from the other parent
+The algorithm uses one types of crossover (with a specific variation) and two types of mutations. In particular:
+- the **crossover** acts on two parents and is based on subtrees swapping, where two children are produced, each one of them corresponds to one parent with the subtree swapped from the other parent;<br>
+if the two parents to be used for the crossover are both composed by just one (terminal) node, then we use a terminal crossover that connects the two parent nodes with a new parent function that requires two children (we do this because, in this case, the default crossover would not change the two parents)
 - the **mutation** can either be a simple swap mutation, where we randomly turn a function node into another function node or a terminal node into another therminal node, or it can be a collapse mutation, where we select a random subtree and we collapse it, substituting its root node with a random terminal node
 If the tree resulting from a crossover has a depth that is higher than the maximum one, its depth is reduced by a function that collapses the subtrees that are too deep.
 
