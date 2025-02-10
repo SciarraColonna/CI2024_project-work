@@ -38,4 +38,6 @@ If the tree resulting from a crossover has a depth that is higher than the maxim
 
 ## General behavior
 The algorithm, being that it implements a steady-state approach where there is only one crossover at each generation, has a slow convergence which on the other hand is mor precise and gradual. The main iteration can sometimes be stuck in a long stagnation phase (1000 - 4000 stagnation level), especially in the second half of the execution (after 10.000 generations), but after this phases the algorithm usually finds new good solutions, reason for which there is not a maximum number of stagnation level after which the iteration stops before reaching the maximum number of generations (20.000 generations).<br>
-However, these stagnation phases have been significantly reduced with the methods of stagnation avoidance explained before.
+However, these stagnation phases have been significantly reduced with the methods of stagnation avoidance explained before.<br><br><br>
+
+**N.B:** The algorithm doesn't have a strict result consistency, meanining that, by running it multiple times on the same dataset, it can produce final results with a significant difference in the MSE, which, however, are usually (but not always) in the same order of magnitude.
