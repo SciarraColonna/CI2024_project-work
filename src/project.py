@@ -484,7 +484,6 @@ stagnation = 0
 # population initialization
 population = []
 grow_method_init(POPULATION_SIZE, population)
-#init_population(POPULATION_SIZE, population)
 
 
 # main loop
@@ -502,8 +501,7 @@ for i in range(0, MAX_GENERATIONS):
         Pc = 0.95
         TOURNAMENT_SIZE = 2
         new_population = []
-        #init_population(POPULATION_SIZE // 2, new_population)
-        grow_method_init(POPULATION_SIZE // 2, new_population)
+        init_population(POPULATION_SIZE // 2, new_population)
         for j in range(0, POPULATION_SIZE // 2):
             population[j] = new_population[j]
     
