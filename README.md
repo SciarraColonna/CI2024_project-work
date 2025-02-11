@@ -1,4 +1,5 @@
 # Project work (Symbolic regression with GP)
+**The code related to this project was written on my own with a sporadic support from ChatGPT for handling the math functions unexpected behaviors and overflows**<br><br>
 The genetic programming algorithm used to solve the symbolic regression problem has the following main characteristics:
 
 ## Individuals structure
