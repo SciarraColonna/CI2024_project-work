@@ -1,5 +1,5 @@
 # Project work (Symbolic regression with GP)
-**The code related to this project was written on my own with a sporadic support from ChatGPT for handling the math functions unexpected behaviors and overflows**<br><br>
+**The code related to this project was written on my own with a sporadic support from ChatGPT for handling math functions, its unexpected behaviors and overflows**<br><br>
 The genetic programming algorithm used to solve the symbolic regression problem has the following main characteristics:
 - **Population size**: 600
 - **Maximum generations**: 500
@@ -35,12 +35,12 @@ The grow method consists of expanding the tree with a probability of 0.5. Theref
 The implemented crossover is a simple tree-sawp crossover and the related crossover rate `Pc` is initially equal to 0.9.<br>
 The available mutation operators are the following:
 - **Node mutation**: the mutation is applied to a single random node of the individual. In particular:
-  - If the selected node is a function node that requires two children than it is replaced by another randon function node that requires two children.
-  - If the selected node is a function node that requires only one child it is replaced with another random child that requires only one child.
-  - If the selected node is a terminal variable node it is replaced with a terminal constant node or another terminal variable node.
-  - If the selected node is a terminal constant node it is replaced with a terminal variable node or it is perturbated with a random gaussian noise.
+  - If the selected node is a function node that requires two children, it is replaced by another random function node that requires two children.
+  - If the selected node is a function node that requires only one child, it is replaced with another random node that requires only one child.
+  - If the selected node is a terminal variable node, it is replaced with a terminal constant node or another terminal variable node.
+  - If the selected node is a terminal constant node, it is replaced with a terminal variable node or it is perturbated with a random gaussian noise.
 - **Collapse mutation**: a random node of the individual is selected and its subtree gets collapsed and replaced with a terminal node (either a variable or a constant).
-- **Hoist mutation**: a random node of the individual is selected and its subtree gets extracted and becomes a new individual. The rest if the original tree is discarded.<br><br>
+- **Hoist mutation**: a random node of the individual is selected and its subtree gets extracted and becomes a new individual. The rest of the original tree is discarded.<br><br>
 
 
 ## Parent selection
@@ -63,10 +63,10 @@ The algorithm has the following initial values of the parameters:
   
 After the population gets initialized and for each generation, the algorithm procedes as follows:
 - If the current generation is not the first one and it is a multiple of 10, we inject in the offsprings a random set of tree (generated with grow method) whose size is equal to 5% of the population. This is made to maintain a stable diversity among generations.
-- We insert into the offsprings the top `ELITISM_SIZE` of the individuals of the previous generation
+- We insert into the offsprings the top `ELITISM_SIZE` of the individuals of the previous generation.
 - While the offsprings have not the same size as the population:
   - We perform a crossover with probability `Pc` or we perform a mutation with probability `1 - Pc`. If we perform a mutation we select a mutation type among node mutation, collapse mutation or hoist mutation with probability `Pm_1`, `Pm_2`, `Pm_3` (they are mutually exclusive).
-  - We discard the offsprings made of a single node, otherwise they are added to the offsprings list.
+  - We discard the offsprings made of a single node (trees with depth 1), otherwise we add them to the offsprings list.
 - The population is replaced with the offsprings, which also contain the top `ELITISM_SIZE` individuals of the population.
 - We select the best fitness among the ones of the offsprings and we compare it to the one of the previous generation. If the fitness is the same we increase the `stagnation` variable, otherwise we update the best solution.
 - According to the level of stagnation we modify the problem parameters in order to enforce diversity and exploration. In particular, we reduce `TOURNAMENT_SIZE`, we reduce the crossover probability `Pc` and we change the mutation probabilities `Pm_1`, `Pm_2`, `Pm_3` in order to favour collapse mutation and hoist mutation.
@@ -79,5 +79,17 @@ As already said before, in order to avoid long periods of stagnation in which th
 In order to achieve this, the algoritm relies on:
 - A regular (every 10 generations) injection of random individuals created with grow method.
 - A decrease by 1 in each generation of the tournament size in case of stagnation.
-- An adjustment in the probabilities of the three types of mutation in case of stagnation (they become `Pm_1 = 0.6`, `Pm_2 = 0.3`, `Pm_3 = 0.3`), in order to make collapse mutation and hoist mutation more frequent (those two types of mutation allow varying the structure of the individuals of the population in a more inpacting way).
-- A diversity enforcement in the parents selected using tournament selection, allowing crossover to be performed between trees with a different structure.
+- An adjustment in the probabilities of the three types of mutation in case of stagnation (they become `Pm_1 = 0.6`, `Pm_2 = 0.3`, `Pm_3 = 0.3`), in order to make collapse mutation and hoist mutation more frequent (those two types of mutation allow varying the structure of the individuals of the population in a more impacting way).
+- A diversity enforcement in the parents selected using tournament selection, allowing crossover to be performed between trees with a different structure.<br><br>
+
+
+## Comparison with the previous algorithm
+With respect to the previous algorithm, this version of the GP allowed the following improvements in the solution MSE:
+- **Dataset 1**: same result as before
+- **Dataset 2**:
+- **Dataset 3**: reduction of the MSE by 3 orders of magnitude
+- **Dataset 4**: reduction of the MSE by 2 orders of magnitude
+- **Dataset 5**:
+- **Dataset 6**: reduction of the MSE by 6 orders of magnitude
+- **Dataset 7**:
+- **Dataset 8**: 
