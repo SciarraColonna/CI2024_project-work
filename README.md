@@ -61,10 +61,23 @@ The algorithm has the following initial values of the parameters:
 -  `Pm_2` (probability of performing a collapse mutation): 10%
 -  `Pm_3` (probability of performing an hoist mutation): 10%
   
-After the population gets initialized, the algorithm procedes as follows:
+After the population gets initialized and for each generation, the algorithm procedes as follows:
 - If the current generation is not the first one and it is a multiple of 10, we inject in the offsprings a random set of tree (generated with grow method) whose size is equal to 5% of the population. This is made to maintain a stable diversity among generations.
 - We insert into the offsprings the top `ELITISM_SIZE` of the individuals of the previous generation
 - While the offsprings have not the same size as the population:
-  - We perform a crossover with probability `Pc`
-  - We perform a mutation with probability `1 - Pc` (it's mutually exclusive with crossover). In this case 
+  - We perform a crossover with probability `Pc` or we perform a mutation with probability `1 - Pc`. If we perform a mutation we select a mutation type among node mutation, collapse mutation or hoist mutation with probability `Pm_1`, `Pm_2`, `Pm_3` (they are mutually exclusive).
+  - We discard the offsprings made of a single node, otherwise they are added to the offsprings list.
+- The population is replaced with the offsprings, which also contain the top `ELITISM_SIZE` individuals of the population.
+- We select the best fitness among the ones of the offsprings and we compare it to the one of the previous generation. If the fitness is the same we increase the `stagnation` variable, otherwise we update the best solution.
+- According to the level of stagnation we modify the problem parameters in order to enforce diversity and exploration. In particular, we reduce `TOURNAMENT_SIZE`, we reduce the crossover probability `Pc` and we change the mutation probabilities `Pm_1`, `Pm_2`, `Pm_3` in order to favour collapse mutation and hoist mutation.
 
+This process is repeated until the maximum number of generations is reached.<br><br>
+
+
+## Diversity enforcement and stagnation avoidance
+As already said before, in order to avoid long periods of stagnation in which there is no improvement in the solution, we enforce the diversity of the population such that we avoid it to be filled with copies of the champion, allowing a diverse genetic material to be used for crossovers.<br>
+In order to achieve this, the algoritm relies on:
+- A regular (every 10 generations) injection of random individuals created with grow method.
+- A decrease by 1 in each generation of the tournament size in case of stagnation.
+- An adjustment in the probabilities of the three types of mutation in case of stagnation (they become `Pm_1 = 0.6`, `Pm_2 = 0.3`, `Pm_3 = 0.3`), in order to make collapse mutation and hoist mutation more frequent (those two types of mutation allow varying the structure of the individuals of the population in a more inpacting way).
+- A diversity enforcement in the parents selected using tournament selection, allowing crossover to be performed between trees with a different structure.
