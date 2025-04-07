@@ -91,5 +91,5 @@ With respect to the previous algorithm, this version of the GP allowed the follo
 - **Dataset 4**: reduction of the MSE by 2 orders of magnitude
 - **Dataset 5**:
 - **Dataset 6**: reduction of the MSE by 6 orders of magnitude
-- **Dataset 7**:
+- **Dataset 7**: reduction of the MSE by 1 order of magnitude
 - **Dataset 8**: 
