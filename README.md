@@ -86,10 +86,10 @@ In order to achieve this, the algoritm relies on:
 ## Comparison with the previous algorithm
 With respect to the previous algorithm, this version of the GP allowed the following improvements in the solution MSE:
 - **Dataset 1**: same result as before
-- **Dataset 2**:
+- **Dataset 2**: reduced MSE but still in the same order of magnitude
 - **Dataset 3**: reduction of the MSE by 3 orders of magnitude
 - **Dataset 4**: reduction of the MSE by 2 orders of magnitude
-- **Dataset 5**:
+- **Dataset 5**: reduction of the MSE by 1 order of magnitude
 - **Dataset 6**: reduction of the MSE by 6 orders of magnitude
 - **Dataset 7**: reduction of the MSE by 1 order of magnitude
-- **Dataset 8**: 
+- **Dataset 8**: reduction of the MSE by 1 order of magnitude
